@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEABPD Israel - קונספט</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#1f3c6e',
+                            softBlue: '#eef2f9',
+                            red: '#cd251c',
+                            bg: '#fffefc'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Heebo', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'softer': '0 4px 20px -2px rgba(31, 60, 110, 0.05)',
+                        'soft': '0 10px 30px -5px rgba(31, 60, 110, 0.08)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #fffefc; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const IconArrowLeft = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>;
+        const IconHeart = ({className}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>;
+        const IconPhoneCall = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>;
+        const IconUsers = ({className}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>;
+        const IconBook = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>;
+        const IconMenu = () => <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>;
+        const IconX = () => <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>;
+        const IconAlert = ({className}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>;
+        const IconCheck = ({className}) => <svg className={className} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>;
+        const IconQuote = ({ className }) => <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" /></svg>;
+
+        const { useState, useEffect } = React;
+
+        const InternalHero = ({ title, subtitle, icon: Icon, badge }) => (
+            <div className="relative pt-32 pb-16 mb-12 overflow-hidden border-b border-gray-100">
+                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-brand-softBlue/50 to-white -z-10"></div>
+                <div className="container mx-auto px-4 max-w-4xl text-center relative z-10">
+                    {Icon && (
+                        <div className="w-16 h-16 bg-white text-brand-blue rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm border border-brand-softBlue/50 rotate-3">
+                            <Icon className="w-8 h-8 -rotate-3" />
+                        </div>
+                    )}
+                    {badge && <div className="inline-block bg-brand-softBlue text-brand-blue px-4 py-1.5 rounded-full font-bold mb-4 text-sm tracking-wide border border-brand-blue/10">{badge}</div>}
+                    <h1 className="text-4xl lg:text-5xl font-extrabold text-brand-blue mb-4 leading-tight">{title}</h1>
+                    <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">{subtitle}</p>
+                </div>
+            </div>
+        );
+
+        const suitabilityTextsFamily = [
+            "פחד עז מנטישה, גם כאשר אין סימן ממשי לכך שהקשר עומד להסתיים",
+            "קשרים המתאפיינים בעליות ובמורדות חדים — מקרבה גדולה ועד ריחוק קיצוני",
+            "תחושת זהות שאינה יציבה ומשתנה מתקופה לתקופה",
+            "התנהגויות אימפולסיביות שמעוררות דאגה, כמו הוצאות כספיות, נהיגה מסוכנת, אכילה או שימוש בחומרים",
+            "דיבור על פגיעה עצמית או על מחשבות אובדניות, בהווה או בעבר",
+            "שינויים חדים במצב הרוח בתוך שעות או ימים ספורים",
+            "תחושת ריקנות מתמשכת",
+            "התפרצויות כעס עזות, לא מותאמות למצב או קשות לשליטה",
+            "בתקופות של לחץ משמעותי — ניתוק, חשדנות חריגה או קושי להישאר מחוברים למציאות"
+        ];
+        const suitabilityTextsSelf = [
+            "יש בי פחד עז מנטישה, גם כאשר אין סימן ממשי לכך שהקשר עומד להסתיים",
+            "קשרים קרובים בחיי נעים לעיתים בין קרבה גדולה לריחוק קיצוני",
+            "תחושת הזהות שלי אינה יציבה ולעיתים קשה לי לדעת מי אני באמת",
+            "יש בחיי התנהגויות אימפולסיביות שמדאיגות אותי או את הסביבה",
+            "היו או יש לי מחשבות על פגיעה עצמית או על התאבדות",
+            "מצב הרוח שלי עשוי להשתנות בחדות בתוך שעות או ימים ספורים",
+            "אני חווה תחושת ריקנות מתמשכת",
+            "יש לי התפרצויות כעס עזות שקשה לי לשלוט בהן",
+            "בתקופות של לחץ משמעותי אני עשוי לחוות ניתוק, חשדנות חריגה או תחושה שהמציאות אינה לגמרי ברורה"
+        ];
+
+        const SuitabilityPage = ({ navigate }) => {
+            const [perspective, setPerspective] = useState('family');
+            const [checks, setChecks] = useState(Array(9).fill(false));
+
+            const isSelfPerspective = perspective === 'self';
+            const suitabilityTexts = isSelfPerspective ? suitabilityTextsSelf : suitabilityTextsFamily;
+            const checkedCount = checks.filter(Boolean).length;
+            const total = suitabilityTexts.length;
+
+            const toggle = (i) => setChecks(prev => { const c = [...prev]; c[i] = !c[i]; return c; });
+            const resetQuiz = () => setChecks(Array(9).fill(false));
+
+            let resultTitle = '', resultText = '', primaryCtaLabel = 'אני רוצה לתאם שיחת הכוונה';
+            if (checkedCount >= 5) {
+                resultTitle = 'זה נשמע כמו המקום הנכון עבורכם';
+                resultText = `סימנתם ${checkedCount} מתוך ${total} — התמונה שאתם מתארים מוכרת לנו מאוד. קורס קשרי משפחה והכלים מבוססי המחקר (DBT) שלנו יכולים לעזור. הצעד הראשון המומלץ: שיחת הכוונה קצרה וללא עלות.`;
+                primaryCtaLabel = 'לתיאום שיחת הכוונה עכשיו';
+            } else if (checkedCount >= 3) {
+                resultTitle = 'סימנתם כמה דברים משמעותיים';
+                resultText = `סימנתם ${checkedCount} מתוך ${total} — יש כאן תמונה שכדאי לברר לעומק. שיחת הכוונה קצרה וללא עלות תעזור לכם להבין אם קורס קשרי משפחה או מרכז הידע הם הצעד הבא המתאים.`;
+            } else if (checkedCount >= 1) {
+                resultTitle = 'חלק מהדברים מוכרים לכם';
+                resultText = 'גם אם סימנתם רק חלק, אתם מוזמנים לפנות אלינו. מרכז הידע שלנו יכול להיות נקודת התחלה טובה, ואם תרצו — גם שיחת הכוונה תמיד פתוחה בפניכם.';
+            }
+
+            const quizPrompt = isSelfPerspective
+                ? 'סמנו את המשפטים שמתארים דברים שמוכרים לכם מהחוויה האישית שלכם:'
+                : 'סמנו את המשפטים שמתארים דברים שזיהיתם בקשר או בהתנהלות של האדם הקרוב אליכם:';
+
+            return (
+                <div className="animate-fade-in pb-20">
+                    <InternalHero
+                        title="האם הפעילות שלנו יכולה להתאים?"
+                        subtitle="כלי קצר ורגיש שיעזור להבין אילו מענים ופעילויות שלנו עשויים להיות רלוונטיים למצב שלכם"
+                        icon={IconCheck}
+                    />
+                    <div className="container mx-auto px-4 max-w-6xl grid md:grid-cols-[1fr_360px] gap-6 items-start">
+                        <div className="bg-white p-8 md:p-10 rounded-3xl shadow-soft border border-gray-100">
+                            <p className="text-gray-600 text-lg mb-4">הכלי מיועד למשפחות ולאנשים המתמודדים בעצמם. אין צורך באבחנה רשמית, והוא אינו משמש לאבחון.</p>
+                            <p className="text-gray-800 font-bold mb-3">מאיזו נקודת מבט תרצו לענות?</p>
+                            <div className="flex gap-2 mb-6">
+                                <button
+                                    onClick={() => setPerspective('family')}
+                                    className={`flex-1 py-2.5 px-4 rounded-full font-bold text-sm transition ${!isSelfPerspective ? 'bg-brand-blue text-white' : 'bg-white text-gray-600 border-2 border-gray-200'}`}
+                                >
+                                    ההתמודדות של אדם קרוב
+                                </button>
+                                <button
+                                    onClick={() => setPerspective('self')}
+                                    className={`flex-1 py-2.5 px-4 rounded-full font-bold text-sm transition ${isSelfPerspective ? 'bg-brand-blue text-white' : 'bg-white text-gray-600 border-2 border-gray-200'}`}
+                                >
+                                    ההתמודדות האישית שלי
+                                </button>
+                            </div>
+                            <p className="text-gray-600 mb-5">{quizPrompt}</p>
+                            <div className="h-2 bg-brand-softBlue/40 rounded-full overflow-hidden mb-5">
+                                <div className="h-full bg-brand-blue rounded-full transition-all duration-200" style={{ width: `${(checkedCount / total) * 100}%` }}></div>
+                            </div>
+                            <div className="space-y-3 mb-2">
+                                {suitabilityTexts.map((text, i) => {
+                                    const checked = checks[i];
+                                    return (
+                                        <label
+                                            key={i}
+                                            onClick={() => toggle(i)}
+                                            className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer border-2 transition ${checked ? 'bg-brand-softBlue/40 border-brand-blue' : 'bg-white border-gray-200 hover:border-brand-softBlue'}`}
+                                        >
+                                            <span className={`w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 ${checked ? 'bg-brand-blue text-white' : 'border-2 border-gray-300'}`}>
+                                                {checked && <IconCheck className="w-4 h-4" />}
+                                            </span>
+                                            <span className="text-gray-800 font-medium">{text}</span>
+                                        </label>
+                                    );
+                                })}
+                            </div>
+                            {checkedCount > 0 && (
+                                <button onClick={resetQuiz} className="text-gray-500 text-sm underline mb-4 hover:text-brand-blue transition">
+                                    ניקוי הבחירות
+                                </button>
+                            )}
+                            <div className="flex items-start gap-3 bg-brand-softBlue/40 border border-brand-blue/10 rounded-2xl p-5 mt-2">
+                                <div className="w-5 h-5 rounded-full bg-brand-blue flex-shrink-0 mt-0.5"></div>
+                                <p className="text-sm text-gray-700 leading-relaxed">
+                                    <strong className="text-brand-blue">חשוב לדעת: </strong>
+                                    הכלי אינו מיועד לאבחון והעמותה אינה מוקד חירום. במקרה של סכנה מיידית יש לפנות למד״א בטלפון 101. לתמיכה נפשית אפשר לפנות לער״ן בטלפון 1201 או לסה״ר באמצעות הצ׳אט באתר.
+                                </p>
+                            </div>
+                        </div>
+                        <div className="md:sticky md:top-24">
+                            <div className="bg-brand-softBlue/30 p-6 rounded-3xl shadow-soft border border-brand-softBlue">
+                                {checkedCount > 0 ? (
+                                    <React.Fragment>
+                                        <h3 className="font-bold text-brand-blue text-xl mb-2">{resultTitle}</h3>
+                                        <p className="text-gray-700 mb-5 leading-relaxed">{resultText}</p>
+                                    </React.Fragment>
+                                ) : (
+                                    <React.Fragment>
+                                        <h3 className="font-bold text-brand-blue text-xl mb-2">ההמלצה שלכם תופיע כאן</h3>
+                                        <p className="text-gray-500 mb-5 leading-relaxed">סמנו לפחות משפט אחד מהרשימה כדי לקבל המלצה מותאמת אישית.</p>
+                                    </React.Fragment>
+                                )}
+                                <div className="flex flex-col gap-3">
+                                    <button onClick={() => navigate('guidance')} className="bg-brand-blue text-white px-6 py-3 rounded-full font-bold hover:bg-brand-blue/90 transition shadow-soft">
+                                        {primaryCtaLabel}
+                                    </button>
+                                    <button onClick={() => navigate('course')} className="bg-white text-brand-blue border-2 border-brand-blue px-6 py-3 rounded-full font-bold hover:bg-brand-softBlue transition">
+                                        למידע על קורס קשרי משפחה
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+
+        const IndividualsPage = ({ navigate }) => (
+            <div className="animate-fade-in pb-20">
+                 <InternalHero 
+                    title="מידע למתמודדים" 
+                    subtitle="אתם לא לבד בזה. יש כלים, יש תקווה ויש דרכים להרגיש טוב יותר."
+                    icon={IconHeart}
+                />
+                <div className="container mx-auto px-4 max-w-4xl">
+                    <div className="bg-white p-8 md:p-12 rounded-3xl shadow-soft border border-gray-100">
+                        <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+                            לחיות עם הפרעת אישיות גבולית (BPD) או אי-ויסות רגשי חמור זו התמודדות מאתגרת וכואבת. עוצמת הרגשות יכולה להרגיש מציפה, והקשיים במערכות יחסים יכולים לעייף. 
+                            חשוב לנו שתדעו שיש היום טיפולים מבוססי מחקר שיעילותם מוכחת, בראשם <strong>טיפול דיאלקטי-התנהגותי (DBT)</strong>, שעוזר למאות אלפי אנשים בעולם לבנות חיים ששווה לחיות אותם.
+                        </p>
+                        <div className="grid md:grid-cols-2 gap-6 mb-8">
+                            <div className="bg-brand-softBlue/30 p-6 rounded-2xl border border-brand-softBlue/50 hover:shadow-sm transition">
+                                <div className="text-brand-blue mb-4"><IconBook /></div>
+                                <h3 className="font-bold text-xl text-brand-blue mb-2">מרכז ידע וכלים (DBT)</h3>
+                                <p className="text-gray-700 mb-4">סרטונים, מאמרים וכלים מעולמות ה-DBT שיכולים לעזור בהבנת המצב, ויסות רגשי וניהול משברים.</p>
+                                <button onClick={() => navigate('knowledge')} className="text-brand-blue font-bold flex items-center gap-2 hover:underline">למרכז הידע <IconArrowLeft/></button>
+                            </div>
+                            <div className="bg-brand-softBlue/30 p-6 rounded-2xl border border-brand-softBlue/50 hover:shadow-sm transition">
+                                <div className="text-brand-blue mb-4"><IconUsers className="" /></div>
+                                <h3 className="font-bold text-xl text-brand-blue mb-2">קהילה וקבוצות תמיכה</h3>
+                                <p className="text-gray-700 mb-4">מידע על קבוצות תמיכה למתמודדים, מסגרות טיפול וגורמי טיפול מוסמכים ב-DBT בישראל.</p>
+                                <button onClick={() => navigate('knowledge')} className="text-brand-blue font-bold flex items-center gap-2 hover:underline">למשאבים נוספים <IconArrowLeft/></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        const ProfessionalsPage = ({ navigate }) => (
+            <div className="animate-fade-in pb-20">
+                 <InternalHero 
+                    title="לאנשי מקצוע" 
+                    subtitle="שותפות לדרך, ידע מקצועי והכשרות ב-DBT ובהפרעת אישיות גבולית."
+                />
+                <div className="container mx-auto px-4 max-w-4xl">
+                    <div className="bg-white p-8 md:p-12 rounded-3xl shadow-soft border border-gray-100">
+                        <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+                            NEABPD Israel רואה בכם, המטפלים ואנשי המקצוע, שותפים טבעיים לדרך. אנו פועלים להנגשת ידע מבוסס מחקר, כלים מעולמות ה-DBT, וקיום ימי עיון והכשרות ייעודיות לצוותים טיפוליים ולמטפלים בקליניקות.
+                        </p>
+                        <ul className="space-y-4 mb-8">
+                            <li className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl"><IconCheck className="text-brand-blue mt-1 shrink-0" /><span className="text-gray-700"><strong>הפניית משפחות:</strong> שילוב המשפחה בקורס 'קשרי משפחה' כחלק ממעטפת הטיפול מגביר משמעותית את סיכויי ההצלחה של המטופל.</span></li>
+                            <li className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl"><IconCheck className="text-brand-blue mt-1 shrink-0" /><span className="text-gray-700"><strong>ימי עיון:</strong> הרצאות מומחים מהארץ ומהעולם בתחום ה-BPD וה-DBT.</span></li>
+                            <li className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl"><IconCheck className="text-brand-blue mt-1 shrink-0" /><span className="text-gray-700"><strong>מאגר אקדמי:</strong> מאמרים ומחקרים עדכניים לשימוש קליני מבוסס ראיות (Evidence-based).</span></li>
+                        </ul>
+                        <button className="bg-brand-blue text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-brand-blue/90 transition shadow-soft">
+                            הצטרפו לרשימת התפוצה לאנשי מקצוע
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+
+        const CoursePage = ({ navigate }) => (
+            <div className="animate-fade-in bg-gray-50/50 pb-20">
+                <InternalHero 
+                    badge="ספינת הדגל של העמותה"
+                    title="קורס קשרי משפחה" 
+                    subtitle="תוכנית מבוססת מחקר (DBT) המעניקה ידע וכלים מעשיים להתמודדות משפחתית והחזרת היציבות הביתה."
+                    icon={IconUsers}
+                />
+                
+                <div className="container mx-auto px-4 max-w-5xl">
+                    <div className="grid md:grid-cols-3 gap-8">
+                        {/* Right column - Main info */}
+                        <div className="md:col-span-2">
+                            <h2 className="text-3xl font-bold text-brand-blue mb-6">ללמוד איך להתמודד, יחד.</h2>
+                            <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+                                קורס קשרי משפחה (Family Connections) הוא תוכנית מבוססת מחקר (Evidence-based) בת 12 מפגשים, המיועדת להורים, בני זוג, אחים וילדים בוגרים של מתמודדים עם הפרעת אישיות גבולית (BPD) או אי-ויסות רגשי חמור. הקורס מונחה על ידי אנשי מקצוע ובני משפחה שעברו הכשרה ייעודית.
+                            </p>
+                            
+                            <h3 className="text-2xl font-bold text-brand-blue mt-10 mb-6">מה לומדים בקורס?</h3>
+                            <div className="grid sm:grid-cols-2 gap-4 mb-10">
+                                {[
+                                    "מידע עדכני ומבוסס מחקר על BPD.",
+                                    "מיומנויות DBT לאיזון רגשי של בן המשפחה.",
+                                    "כלים לתקשורת אפקטיבית (תיקוף / Validation).",
+                                    "הצבת גבולות בצורה שומרת ומכבדת.",
+                                    "התמודדות נכונה עם משברים ופגיעה עצמית.",
+                                    "בניית רשת תמיכה משפחתית וקהילתית."
+                                ].map((item, i) => (
+                                    <div key={i} className="flex gap-3 bg-white p-5 rounded-xl items-center border border-gray-100 shadow-sm">
+                                        <div className="w-2 h-2 bg-brand-blue rounded-full shrink-0"></div>
+                                        <span className="text-gray-800 font-medium">{item}</span>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="bg-brand-softBlue/30 p-6 rounded-2xl mb-10 border border-brand-softBlue/50">
+                                <h4 className="font-bold text-brand-blue mb-2 text-lg">מסלול המשך: קורס רענון והעמקה</h4>
+                                <p className="text-gray-700">לבוגרי הקורס הבסיסי, אנו מציעים קורס המשך מקוצר (8 מפגשים) המיועד לתרגול נוסף, העמקת מיומנויות ה-DBT ותמיכה קהילתית מתמשכת.</p>
+                            </div>
+                        </div>
+
+                        {/* Left column - Sticky Info Card (Redesigned) */}
+                        <div className="md:col-span-1">
+                            <div className="bg-white p-6 md:p-8 rounded-3xl shadow-soft border border-gray-100 sticky top-28">
+                                
+                                {/* Free Tag */}
+                                <div className="bg-green-50 text-green-700 px-4 py-3 rounded-xl font-bold flex items-center justify-center gap-2 mb-8 border border-green-200 shadow-sm">
+                                    <IconCheck className="w-5 h-5" />
+                                    הקורס ניתן ללא עלות (חינם)
+                                </div>
+                                
+                                <h4 className="font-bold text-brand-blue text-xl mb-6">איך מצטרפים לקורס?</h4>
+                                
+                                <ol className="space-y-6 mb-8 relative before:absolute before:right-3.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-brand-softBlue">
+                                    <li className="flex gap-4 relative z-10">
+                                        <div className="w-8 h-8 bg-brand-blue text-white rounded-full flex items-center justify-center font-bold text-sm shrink-0 shadow-sm">1</div>
+                                        <div className="pt-1">
+                                            <div className="font-bold text-gray-800 mb-1">שיחת הכוונה</div>
+                                            <div className="text-sm text-gray-600">תיאום וקיום שיחה טלפונית לבדיקת התאמה.</div>
+                                        </div>
+                                    </li>
+                                    <li className="flex gap-4 relative z-10">
+                                        <div className="w-8 h-8 bg-brand-softBlue text-brand-blue rounded-full flex items-center justify-center font-bold text-sm shrink-0 border border-white">2</div>
+                                        <div className="pt-1">
+                                            <div className="font-bold text-gray-800 mb-1">רשימת המתנה</div>
+                                            <div className="text-sm text-gray-600">הצטרפות לרשימת המתנה ארצית לקורס.</div>
+                                        </div>
+                                    </li>
+                                    <li className="flex gap-4 relative z-10">
+                                        <div className="w-8 h-8 bg-brand-softBlue text-brand-blue rounded-full flex items-center justify-center font-bold text-sm shrink-0 border border-white">3</div>
+                                        <div className="pt-1">
+                                            <div className="font-bold text-gray-800 mb-1">שיבוץ לקורס</div>
+                                            <div className="text-sm text-gray-600">שיבוץ לקבוצה בהתאם לאזור המגורים וזמינות.</div>
+                                        </div>
+                                    </li>
+                                </ol>
+
+                                {/* Fixed CTA Button */}
+                                <button onClick={() => navigate('guidance')} className="w-full bg-brand-blue text-white py-4 rounded-xl font-bold text-lg hover:bg-brand-blue/90 transition shadow-sm mb-3">
+                                    לתיאום שיחת הכוונה
+                                </button>
+                                <p className="text-xs text-center text-gray-500 font-medium">זהו הצעד הראשון לקראת ההרשמה</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Course Testimonials */}
+                    <div className="mt-16 pt-16 border-t border-gray-200">
+                        <h3 className="text-2xl font-bold text-brand-blue mb-8 text-center">מה אומרים בוגרי הקורס?</h3>
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-softer relative">
+                                <IconQuote className="absolute top-6 left-6 text-brand-softBlue/60 opacity-50 w-12 h-12" />
+                                <p className="text-gray-700 relative z-10 leading-relaxed mb-6 text-lg">"הכלים שלמדנו בקורס, ובמיוחד נושא התיקוף, שינו את הדינמיקה בבית מקצה לקצה. למדתי איך לדבר בלי לעורר פיצוץ."</p>
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 bg-brand-softBlue rounded-full flex items-center justify-center text-brand-blue font-bold">א'</div>
+                                    <div className="text-sm font-bold text-brand-blue">אמא למתמודדת</div>
+                                </div>
+                            </div>
+                            <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-softer relative">
+                                <IconQuote className="absolute top-6 left-6 text-brand-softBlue/60 opacity-50 w-12 h-12" />
+                                <p className="text-gray-700 relative z-10 leading-relaxed mb-6 text-lg">"הבנתי סוף סוף שאני לא אשם, ושיש דרך להציב גבולות ברורים מתוך אהבה והבנה, ולא מתוך כעס ושחיקה. הקורס הוא חובה."</p>
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 bg-brand-softBlue rounded-full flex items-center justify-center text-brand-blue font-bold">ד'</div>
+                                    <div className="text-sm font-bold text-brand-blue">אב למתמודד</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        const KnowledgePage = () => (
+            <div className="animate-fade-in pb-20">
+                <InternalHero 
+                    title="מרכז ידע למשפחות ולמתמודדים" 
+                    subtitle="מאמרים, סרטונים וכלים מבוססי מחקר ו-DBT"
+                    icon={IconBook}
+                />
+                <div className="container mx-auto px-4 max-w-5xl">
+                    <div className="flex flex-wrap gap-2 justify-center mb-10">
+                        {["הכל", "DBT (טיפול דיאלקטי-התנהגותי)", "תיקוף (Validation)", "קבלה רדיקלית", "הבנת BPD", "סיפורים אישיים"].map((tag, i) => (
+                            <button key={i} className={`px-4 py-2 rounded-full text-sm font-medium transition border border-gray-200 ${i === 0 ? 'bg-brand-blue text-white border-brand-blue' : 'bg-white text-gray-600 hover:bg-gray-50'}`}>
+                                {tag}
+                            </button>
+                        ))}
+                    </div>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {[1,2,3,4,5,6].map((item) => (
+                            <div key={item} className="bg-white rounded-2xl shadow-softer border border-gray-100 p-6 hover:shadow-soft transition group cursor-pointer flex flex-col h-full">
+                                <div className="w-12 h-12 bg-brand-softBlue text-brand-blue rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition">
+                                    <IconBook />
+                                </div>
+                                <span className="text-xs font-bold text-brand-blue/70 mb-2 block tracking-wide">DBT • 5 דק' קריאה</span>
+                                <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-brand-blue transition">מהו תיקוף (Validation) ולמה הוא כל כך קריטי?</h3>
+                                <p className="text-gray-600 text-sm mb-6 line-clamp-3 flex-grow">הסבר על אחד הכלים החשובים ביותר בגישת ה-DBT ליצירת תקשורת מרגיעה ומקרבת מול רגשות עוצמתיים וסערות בבית.</p>
+                                <span className="text-brand-blue font-bold text-sm flex items-center gap-1 mt-auto">קראו עוד <IconArrowLeft /></span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+
+        const GuidancePage = () => (
+            <div className="animate-fade-in pb-20">
+                 <InternalHero 
+                    title="שיחת הכוונה ראשונית" 
+                    subtitle="אנחנו כאן כדי להקשיב, לעשות סדר ולעזור לכם למצוא את המענה הנכון."
+                    icon={IconPhoneCall}
+                />
+                <div className="container mx-auto px-4 max-w-3xl text-center">
+                    <div className="bg-white p-8 md:p-12 rounded-3xl shadow-soft border border-gray-100 text-right mb-8">
+                        <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+                            שיחת ההכוונה היא שיחה ראשונית, טלפונית וללא עלות, עם מתנדב/ת מהעמותה (לרוב בני משפחה בעצמם שעברו הכשרה). מטרת השיחה היא להבין את המצב שבו אתם נמצאים ולכוון אתכם למענים המתאימים ביותר שלנו (כמו קורס קשרי משפחה, קבוצות או מרכז הידע).
+                        </p>
+                        <div className="bg-red-50/50 p-5 rounded-2xl mb-8 flex gap-4 border border-red-100">
+                            <IconAlert className="text-brand-red shrink-0 mt-0.5 w-6 h-6" />
+                            <p className="text-sm text-gray-800 leading-relaxed"><strong>הבהרה חשובה:</strong> שיחה זו אינה טיפול פסיכולוגי, אינה מהווה אבחון רפואי, ואינה מיועדת למצבי חירום. במצב של סכנת חיים מיידית יש לפנות מיד למוקד 100 או לחדר מיון.</p>
+                        </div>
+                        <form className="space-y-4">
+                            <input type="text" placeholder="שם מלא" className="w-full p-4 rounded-xl border border-gray-200 focus:border-brand-blue focus:ring-1 focus:ring-brand-blue focus:outline-none transition" />
+                            <input type="tel" placeholder="טלפון לחזרה" className="w-full p-4 rounded-xl border border-gray-200 focus:border-brand-blue focus:ring-1 focus:ring-brand-blue focus:outline-none transition" />
+                            <textarea placeholder="ספרו לנו קצת בכמה מילים (אופציונלי)" rows="3" className="w-full p-4 rounded-xl border border-gray-200 focus:border-brand-blue focus:ring-1 focus:ring-brand-blue focus:outline-none transition"></textarea>
+                            <button type="button" className="w-full bg-brand-blue text-white py-4 rounded-xl font-bold text-lg hover:bg-brand-blue/90 transition shadow-soft mt-4">שליחת פנייה לתיאום שיחה</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        );
+
+        const DonatePage = () => (
+            <div className="animate-fade-in pb-20">
+                <InternalHero 
+                    title="תרומה לעמותה" 
+                    subtitle="עזרו לנו להמשיך להושיט יד למשפחות ולמתמודדים."
+                />
+                <div className="container mx-auto px-4 max-w-3xl text-center">
+                     <div className="w-20 h-20 bg-brand-red/10 text-brand-red rounded-full flex items-center justify-center mx-auto mb-8 shadow-sm border border-brand-red/20">
+                        <IconHeart className="w-10 h-10" />
+                    </div>
+                    <div className="bg-white p-8 md:p-12 rounded-3xl shadow-soft border border-gray-100 text-right mb-8">
+                        <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+                            הפעילות של NEABPD Israel מתקיימת ברובה המוחלט בזכות מתנדבים מסורים ותרומות מהציבור. 
+                            תרומתכם מאפשרת לנו להמשיך לסבסד את קורסי "קשרי משפחה", לקיים קבוצות בוגרים, לתרגם ולהנגיש חומרים מקצועיים מבוססי מחקר (DBT), ולהכשיר מתנדבים נוספים.
+                        </p>
+                        <button type="button" className="w-full bg-brand-red text-white py-5 rounded-xl font-bold text-xl hover:bg-red-700 transition shadow-soft flex items-center justify-center gap-2">
+                            מעבר למערכת תרומות מאובטחת <IconHeart className="w-5 h-5"/>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+
+        const AboutPage = () => (
+            <div className="animate-fade-in pb-20">
+                <InternalHero 
+                    title="אודות העמותה" 
+                    subtitle="מובילים את השינוי בישראל בתחום הפרעת אישיות גבולית."
+                />
+                <div className="container mx-auto px-4 max-w-3xl">
+                    <div className="bg-white p-8 md:p-12 rounded-3xl shadow-soft border border-gray-100 text-right">
+                        <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+                            הארגון הישראלי לטיפול בהפרעת אישיות גבולית (NEABPD Israel) הוא שלוחה של הארגון הבינלאומי (National Education Alliance for Borderline Personality Disorder), הפועל בהצלחה למעלה מ-20 שנה בארה"ב וברחבי העולם.
+                        </p>
+                        <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+                            בישראל אנו פועלים למעלה מעשור, במטרה להעלות את המודעות, להפחית את הסטיגמה, ולספק ידע וכלים מבוססי מחקר למשפחות, למתמודדים ולאנשי מקצוע.
+                        </p>
+                        <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+                            האמונה המנחה אותנו היא שידע מקצועי וכלים נכונים (כגון DBT), לצד קהילה תומכת ונטולת שיפוטיות, מביאים לתקווה אמיתית ולשיפור משמעותי באיכות החיים של כל המעורבים.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        );
+
+        const App = () => {
+            const [currentPage, setCurrentPage] = useState('home');
+            const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+            // Robust internal navigation
+            const handleNavigate = (pageId) => {
+                setCurrentPage(pageId);
+                setIsMobileMenuOpen(false);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            const NavItem = ({ pageId, label, isDonate }) => (
+                <button 
+                    onClick={() => handleNavigate(pageId)}
+                    className={`font-medium transition ${
+                        isDonate 
+                        ? 'text-brand-red border-2 border-brand-red/20 px-5 py-2 rounded-full hover:bg-brand-red hover:text-white shadow-sm flex items-center gap-1.5'
+                        : currentPage === pageId 
+                            ? 'text-brand-blue font-bold' 
+                            : 'text-gray-600 hover:text-brand-blue'
+                    }`}
+                >
+                    {isDonate && <IconHeart className="w-4 h-4" />}
+                    {label}
+                </button>
+            );
+
+            return (
+                <div className="min-h-screen flex flex-col font-sans text-right relative">
+                    {/* Header */}
+                    <header className="fixed w-full bg-white/95 backdrop-blur-md z-50 border-b border-gray-100 shadow-sm">
+                        <div className="container mx-auto px-4 lg:px-8 h-20 flex items-center justify-between">
+                            <div className="flex items-center gap-2 cursor-pointer group" onClick={() => handleNavigate('home')}>
+                                <div className="bg-brand-blue text-white w-10 h-10 flex items-center justify-center rounded-lg font-black text-xl leading-none group-hover:bg-brand-blue/90 transition">N</div>
+                                <div className="leading-tight">
+                                    <div className="font-bold text-brand-blue text-lg tracking-tight">NEABPD</div>
+                                    <div className="text-[10px] text-gray-500 font-bold tracking-widest mt-0.5">ISRAEL</div>
+                                </div>
+                            </div>
+                            
+                            <nav className="hidden xl:flex items-center gap-6">
+                                <NavItem pageId="home" label="בית" />
+                                <NavItem pageId="suitability" label="האם זה מתאים לנו?" />
+                                <NavItem pageId="course" label="קורס קשרי משפחה" />
+                                <NavItem pageId="individuals" label="למתמודדים" />
+                                <NavItem pageId="professionals" label="לאנשי מקצוע" />
+                                <NavItem pageId="knowledge" label="מרכז ידע" />
+                                <NavItem pageId="about" label="אודות" />
+                                <NavItem pageId="donate" label="תרומה" isDonate={true} />
+                            </nav>
+
+                            <button className="xl:hidden text-brand-blue p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                                {isMobileMenuOpen ? <IconX /> : <IconMenu />}
+                            </button>
+                        </div>
+
+                        {/* Mobile Menu */}
+                        {isMobileMenuOpen && (
+                            <div className="xl:hidden bg-white border-t border-gray-100 p-4 flex flex-col gap-4 shadow-lg absolute w-full max-h-[calc(100vh-80px)] overflow-y-auto">
+                                <NavItem pageId="home" label="בית" />
+                                <NavItem pageId="suitability" label="האם זה מתאים לנו?" />
+                                <NavItem pageId="course" label="קורס קשרי משפחה" />
+                                <NavItem pageId="individuals" label="למתמודדים" />
+                                <NavItem pageId="professionals" label="לאנשי מקצוע" />
+                                <NavItem pageId="knowledge" label="מרכז ידע" />
+                                <NavItem pageId="about" label="אודות" />
+                                <div className="h-px bg-gray-100 my-2"></div>
+                                <button onClick={() => handleNavigate('guidance')} className="bg-brand-blue text-white py-3.5 rounded-xl font-bold w-full">אני רוצה הכוונה</button>
+                                <button onClick={() => handleNavigate('donate')} className="bg-brand-red/10 border border-brand-red/20 text-brand-red py-3.5 rounded-xl font-bold w-full flex justify-center items-center gap-2"><IconHeart className="w-5 h-5"/> לתרומה</button>
+                            </div>
+                        )}
+                    </header>
+
+                    {/* Main Content */}
+                    <main className="flex-grow pt-20">
+                        {currentPage === 'home' && (
+                            <div className="animate-fade-in">
+                                {/* 1. HERO */}
+                                <section className="relative py-20 lg:py-32 overflow-hidden">
+                                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-brand-softBlue/40 to-white -z-10"></div>
+                                    <div className="absolute -top-40 -left-40 w-96 h-96 bg-brand-softBlue/60 rounded-full blur-3xl opacity-50 -z-10"></div>
+                                    
+                                    <div className="container mx-auto px-4 lg:px-8 max-w-6xl flex flex-col lg:flex-row items-center gap-12">
+                                        <div className="lg:w-3/5 text-center lg:text-right">
+                                            <h1 className="text-4xl lg:text-5xl font-extrabold text-brand-blue leading-tight mb-6">
+                                                אף אחד לא צריך להתמודד עם הפרעת אישיות גבולית (BPD) ואי-ויסות רגשי חמור לבד.
+                                            </h1>
+                                            <p className="text-xl text-gray-600 mb-8 max-w-2xl leading-relaxed">
+                                                NEABPD Israel קהילה עוטפת המספקת ידע מבוסס מחקר וכלים (חלק ניכר מהם מבוססי גישת ה-DBT) למשפחות, אנשים קרובים, מתמודדים ואנשי מקצוע. אנו כאן כדי לסייע בהכוונה, לבנות קהילה, ולהחזיר את היציבות לחייכם.
+                                            </p>
+                                            <div className="flex flex-col sm:flex-row gap-4 mb-6 justify-center lg:justify-start">
+                                                <button onClick={() => handleNavigate('guidance')} className="bg-brand-blue text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-brand-blue/90 transition shadow-soft">
+                                                    אני רוצה הכוונה ללא עלות
+                                                </button>
+                                                <button onClick={() => handleNavigate('course')} className="bg-white text-brand-blue border-2 border-brand-blue px-8 py-4 rounded-full font-bold text-lg hover:bg-brand-softBlue transition">
+                                                    מידע על קורס קשרי משפחה
+                                                </button>
+                                            </div>
+                                            <div className="inline-flex items-start md:items-center gap-2 bg-red-50/50 text-gray-700 px-4 py-3 rounded-xl text-sm font-medium border border-red-100 mt-2 text-right">
+                                                <IconAlert className="text-brand-red w-5 h-5 shrink-0" />
+                                                <span>העמותה אינה מוקד חירום. במצב חירום או סכנה יש לפנות לגורמי הרפואה. המידע באתר אינו מחליף טיפול.</span>
+                                            </div>
+                                        </div>
+                                        <div className="lg:w-2/5 flex justify-center relative">
+                                            <div className="w-64 h-64 md:w-80 md:h-80 relative">
+                                                <div className="absolute inset-0 bg-brand-softBlue rounded-full opacity-60 animate-pulse"></div>
+                                                <div className="absolute inset-4 bg-brand-blue/10 rounded-full flex items-center justify-center">
+                                                    <div className="w-1/2 h-1/2 bg-brand-blue/20 rounded-full backdrop-blur-sm border border-white/50 shadow-inner"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                {/* 2. SUITABILITY TEASER */}
+                                <section className="py-16 bg-white">
+                                    <div className="container mx-auto px-4 max-w-5xl">
+                                        <div className="text-center mb-10">
+                                            <h2 className="text-3xl font-bold text-brand-blue mb-4">האם זה נשמע מוכר?</h2>
+                                            <p className="text-lg text-gray-600">אין צורך באבחנה רשמית כדי לקבל מענה. אם אתם חווים חלק מהמצבים הבאים, אתם במקום הנכון:</p>
+                                        </div>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                                            {["פגיעות עצמיות או איומים", "חוסר ויסות רגשי חמור/כרוני", "תנודות מהירות במצב רוח", "תחושת 'הליכה על ביצים'", "יחסים סוערים ולא יציבים", "בלבול ושחיקה במשפחה"].map((item, i) => (
+                                                <div key={i} className="bg-brand-softBlue/20 border border-brand-softBlue/50 p-4 rounded-xl flex items-center gap-3">
+                                                    <IconCheck className="text-brand-blue/70 shrink-0" />
+                                                    <span className="font-medium text-gray-700">{item}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <div className="text-center">
+                                            <button onClick={() => handleNavigate('suitability')} className="text-brand-blue font-bold text-lg hover:underline flex items-center justify-center gap-2 mx-auto">
+                                                לשאלון הבדיקה העצמית המלא <IconArrowLeft className="w-5 h-5"/>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                {/* 3. HOW WE HELP */}
+                                <section className="py-20 bg-brand-bg border-t border-gray-100">
+                                    <div className="container mx-auto px-4 max-w-6xl">
+                                        <div className="text-center mb-16">
+                                            <h2 className="text-3xl font-bold text-brand-blue mb-4">איך אנחנו יכולים לעזור?</h2>
+                                        </div>
+                                        <div className="grid md:grid-cols-3 gap-8">
+                                            <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-softer hover:shadow-soft transition flex flex-col h-full">
+                                                <div className="w-14 h-14 bg-brand-softBlue text-brand-blue rounded-2xl flex items-center justify-center mb-6">
+                                                    <IconPhoneCall />
+                                                </div>
+                                                <h3 className="text-2xl font-bold text-gray-800 mb-4">שיחת הכוונה</h3>
+                                                <p className="text-gray-600 mb-8 flex-grow">שיחה טלפונית ראשונית וללא עלות עם מתנדב/ת, שעוזרת לעשות סדר, להבין מה קורה ולבחון איזה מענה מתאים לכם.</p>
+                                                <button onClick={() => handleNavigate('guidance')} className="w-full bg-brand-blue/10 text-brand-blue py-3 rounded-xl font-bold hover:bg-brand-blue hover:text-white transition">אני רוצה הכוונה</button>
+                                            </div>
+                                            <div className="bg-white p-8 rounded-3xl border border-brand-blue shadow-soft relative flex flex-col h-full">
+                                                <div className="absolute -top-4 -right-4 bg-brand-blue text-white px-4 py-1 rounded-full text-sm font-bold shadow-md">ספינת הדגל</div>
+                                                <div className="w-14 h-14 bg-brand-blue/10 text-brand-blue rounded-2xl flex items-center justify-center mb-6">
+                                                    <IconUsers />
+                                                </div>
+                                                <h3 className="text-2xl font-bold text-gray-800 mb-4">קורס קשרי משפחה</h3>
+                                                <p className="text-gray-600 mb-8 flex-grow">קורס הדגל לבני משפחה (מבוסס מחקר ו-DBT), המעניק ידע וכלים לתקשורת, הצבת גבולות והתמודדות יומיומית.</p>
+                                                <button onClick={() => handleNavigate('course')} className="w-full bg-brand-blue text-white py-3 rounded-xl font-bold hover:bg-brand-blue/90 transition shadow-sm">למידע על הקורס</button>
+                                            </div>
+                                            <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-softer hover:shadow-soft transition flex flex-col h-full">
+                                                <div className="w-14 h-14 bg-brand-softBlue text-brand-blue rounded-2xl flex items-center justify-center mb-6">
+                                                    <IconBook />
+                                                </div>
+                                                <h3 className="text-2xl font-bold text-gray-800 mb-4">מרכז ידע מבוסס מחקר</h3>
+                                                <p className="text-gray-600 mb-8 flex-grow">ספרייה נגישה של מאמרים, סרטונים ומידע למשפחות ולמתמודדים להבנת BPD ואי-ויסות רגשי.</p>
+                                                <button onClick={() => handleNavigate('knowledge')} className="w-full bg-brand-blue/10 text-brand-blue py-3 rounded-xl font-bold hover:bg-brand-blue hover:text-white transition">למרכז הידע</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                {/* 4. USER JOURNEY */}
+                                <section className="py-16 bg-white overflow-hidden">
+                                    <div className="container mx-auto px-4 max-w-6xl">
+                                        <div className="text-center mb-12">
+                                            <h2 className="text-3xl font-bold text-brand-blue mb-4">מהכוונה ראשונית לקהילה מתמשכת</h2>
+                                            <p className="text-xl text-gray-600">רצף התמיכה של העמותה מלווה אתכם לאורך כל הדרך</p>
+                                        </div>
+                                        <div className="flex flex-col md:flex-row items-center justify-between relative max-w-5xl mx-auto">
+                                            <div className="hidden md:block absolute top-1/2 right-0 w-full h-1 bg-brand-softBlue -z-10 -translate-y-1/2"></div>
+                                            {[
+                                                { title: "שיחת הכוונה", desc: "חינמית וראשונית" },
+                                                { title: "חומרים באתר/יוטיוב", desc: "סרטונים ומאמרים" },
+                                                { title: "קורס קשרי משפחה", desc: "12 מפגשים" },
+                                                { title: "מפגשי בוגרים", desc: "מפגשים חודשיים" },
+                                                { title: "קורס רענון", desc: "העמקה לבוגרים" }
+                                            ].map((step, i) => (
+                                                <div key={i} className="flex flex-col items-center mb-8 md:mb-0 relative group cursor-default">
+                                                    <div className="w-8 h-8 rounded-full bg-brand-blue text-white flex items-center justify-center font-bold text-sm mb-4 border-4 border-white shadow-sm group-hover:scale-110 transition">{i+1}</div>
+                                                    <h4 className="font-bold text-brand-blue text-center">{step.title}</h4>
+                                                    <p className="text-sm text-gray-500 text-center">{step.desc}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </section>
+
+                                {/* 5. FLAGSHIP COURSE HIGHLIGHT - REDESIGNED SPLIT SECTION */}
+                                <section className="py-20 bg-brand-softBlue/30 border-y border-brand-softBlue">
+                                    <div className="container mx-auto px-4 max-w-6xl">
+                                        <div className="bg-white rounded-[2rem] shadow-soft flex flex-col md:flex-row overflow-hidden border border-white">
+                                            
+                                            {/* Text Part (Right Side) */}
+                                            <div className="md:w-1/2 p-8 md:p-14 relative z-10 text-right">
+                                                <div className="inline-block bg-brand-softBlue text-brand-blue px-3 py-1 rounded-full font-bold mb-4 text-sm tracking-wide border border-brand-blue/10">ספינת הדגל של העמותה</div>
+                                                <h2 className="text-3xl md:text-4xl font-extrabold text-brand-blue mb-4">קורס קשרי משפחה</h2>
+                                                <div className="bg-green-50 text-green-700 px-3 py-1.5 rounded-lg font-bold text-sm inline-flex items-center gap-1.5 mb-6 border border-green-200">
+                                                    <IconCheck className="w-4 h-4" />
+                                                    הקורס הינו חינמי וניתן ללא עלות
+                                                </div>
+                                                <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+                                                    אחד המענים המרכזיים והמשמעותיים ביותר שלנו. הקורס מיועד לבני משפחה ואנשים קרובים של מתמודדים עם הפרעת אישיות גבולית (BPD) או אי-ויסות רגשי חמור. 
+                                                    זהו מרחב ללמוד ידע מקצועי מבוסס מחקר, מיומנויות תקשורת ותיקוף (DBT), כלים להצבת גבולות, והכל – בתוך קהילה של משפחות שמבינות בדיוק מה אתם עוברים.
+                                                </p>
+                                                <button onClick={() => handleNavigate('course')} className="bg-brand-blue text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-brand-blue/90 transition shadow-md">
+                                                    מידע נוסף והרשמה לקורס
+                                                </button>
+                                            </div>
+
+                                            {/* Blue Part (Left Side) */}
+                                            <div className="md:w-1/2 bg-brand-blue relative p-8 md:p-14 flex flex-col justify-center items-center text-center overflow-hidden">
+                                                <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                                                <div className="absolute bottom-0 left-0 w-64 h-64 bg-brand-red/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+                                                
+                                                <div className="w-24 h-24 bg-white/10 text-white rounded-full flex items-center justify-center p-6 border border-white/20 shadow-inner mb-6 backdrop-blur-sm z-10">
+                                                    <IconUsers className="" />
+                                                </div>
+                                                <h3 className="text-white text-2xl font-bold mb-3 z-10">ללמוד, להבין, להתחבר</h3>
+                                                <p className="text-white/80 text-lg z-10 max-w-sm">
+                                                    הכלים שיעזרו לכם להחזיר את היציבות הביתה, יחד עם קהילה תומכת שלא שופטת.
+                                                </p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </section>
+
+                                {/* 6. NUMBERS & IMPACT - FIX APPLIED HERE */}
+                                <section className="py-20 bg-white">
+                                    <div className="container mx-auto px-4 max-w-6xl">
+                                        <div className="text-center mb-16">
+                                            <h2 className="text-3xl font-bold text-brand-blue mb-4">עמותה פעילה, מקצועית ומחוברת למשפחות</h2>
+                                            <p className="text-xl text-gray-600">הפעילות שלנו נשענת על ניסיון עולמי, מחקר מבוסס וקהילה חזקה</p>
+                                        </div>
+                                        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                                            <div className="bg-brand-softBlue/20 p-8 rounded-3xl border border-brand-softBlue text-center shadow-softer hover:shadow-soft transition">
+                                                <div className="text-5xl font-black text-brand-blue mb-4">20</div>
+                                                <div className="font-bold text-gray-800 text-lg mb-3">שנות פעילות בעולם</div>
+                                                <p className="text-gray-600 text-sm mt-2 leading-relaxed">הארגון הבינלאומי (NEABPD) פועל בהצלחה למעלה מ-20 שנה.</p>
+                                            </div>
+                                            <div className="bg-brand-softBlue/20 p-8 rounded-3xl border border-brand-softBlue text-center shadow-softer hover:shadow-soft transition">
+                                                <div className="text-5xl font-black text-brand-blue mb-4">10+</div>
+                                                <div className="font-bold text-gray-800 text-lg mb-3">שנות עשייה בישראל</div>
+                                                <p className="text-gray-600 text-sm mt-2 leading-relaxed">השלוחה הישראלית פועלת למעלה מעשור להנגשת ידע, תמיכה וקהילה.</p>
+                                            </div>
+                                            <div className="bg-brand-softBlue/20 p-8 rounded-3xl border border-brand-softBlue text-center shadow-softer hover:shadow-soft transition">
+                                                <div className="text-5xl font-black text-brand-blue mb-4">85</div>
+                                                <div className="font-bold text-gray-800 text-lg mb-3">מחזורי קורס בישראל</div>
+                                                <p className="text-gray-600 text-sm mt-2 leading-relaxed">קורס 'קשרי משפחה' הוא ספינת הדגל שלנו, שסייעה לאלפי משפחות.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                {/* 7. HOME TESTIMONIALS */}
+                                <section className="py-20 bg-brand-bg border-t border-gray-100">
+                                    <div className="container mx-auto px-4 max-w-6xl">
+                                        <div className="text-center mb-16">
+                                            <h2 className="text-3xl font-bold text-brand-blue mb-4">מילים של משפחות</h2>
+                                            <p className="text-xl text-gray-600">הקולות של מי שכבר עשו את הצעד הראשון ופנו לעמותה</p>
+                                        </div>
+                                        <div className="grid md:grid-cols-3 gap-6">
+                                            <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-softer relative hover:shadow-soft transition-shadow">
+                                                <IconQuote className="absolute top-8 left-8 text-brand-softBlue/60 opacity-50 w-12 h-12" />
+                                                <p className="text-gray-700 relative z-10 leading-relaxed mb-8">"הגענו לעמותה מרוסקים לגמרי, מותשים משנים של סערות בלי לדעת מה לעשות. שיחת ההכוונה עשתה לנו סדר בראש ונתנה לנו בפעם הראשונה תקווה מבוססת שיש דרך אחרת."</p>
+                                                <div className="flex items-center gap-4">
+                                                    <div className="w-12 h-12 bg-brand-softBlue rounded-full flex items-center justify-center text-brand-blue font-bold text-lg">ר'</div>
+                                                    <div className="text-sm font-bold text-brand-blue">אמא למתמודדת</div>
+                                                </div>
+                                            </div>
+                                            <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-softer relative hover:shadow-soft transition-shadow">
+                                                <IconQuote className="absolute top-8 left-8 text-brand-softBlue/60 opacity-50 w-12 h-12" />
+                                                <p className="text-gray-700 relative z-10 leading-relaxed mb-8">"הידיעה שאנחנו לא לבד, שיש עוד משפחות שעוברות בדיוק את אותה רכבת הרים מטלטלת, הייתה גלגל הצלה עבורי. הכלים שקיבלנו באתר עזרו לנו לייצב את הספינה."</p>
+                                                <div className="flex items-center gap-4">
+                                                    <div className="w-12 h-12 bg-brand-softBlue rounded-full flex items-center justify-center text-brand-blue font-bold text-lg">ג'</div>
+                                                    <div className="text-sm font-bold text-brand-blue">אח למתמודד</div>
+                                                </div>
+                                            </div>
+                                            <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-softer relative hover:shadow-soft transition-shadow">
+                                                <IconQuote className="absolute top-8 left-8 text-brand-softBlue/60 opacity-50 w-12 h-12" />
+                                                <p className="text-gray-700 relative z-10 leading-relaxed mb-8">"אחרי אבחנה של הפרעת אישיות גבולית לבת זוגי, הייתי אבודה. מצאתי בעמותה אי של ידע מקצועי מבוסס מחקר. למדתי מה זה תיקוף, וזה פשוט הציל לנו את מערכת היחסים."</p>
+                                                <div className="flex items-center gap-4">
+                                                    <div className="w-12 h-12 bg-brand-softBlue rounded-full flex items-center justify-center text-brand-blue font-bold text-lg">נ'</div>
+                                                    <div className="text-sm font-bold text-brand-blue">בת זוג</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                {/* 8. DONATION TEASER */}
+                                <section className="py-16 bg-brand-softBlue/30 border-t border-brand-softBlue/50">
+                                    <div className="container mx-auto px-4 text-center max-w-3xl">
+                                        <div className="w-14 h-14 bg-white text-brand-red rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm border border-brand-red/10">
+                                            <IconHeart className="w-6 h-6" />
+                                        </div>
+                                        <h2 className="text-2xl font-bold text-brand-blue mb-4">עזרו לנו להמשיך לתת מענה</h2>
+                                        <p className="text-gray-600 mb-8 text-lg">הפעילות מתקיימת בזכות מתנדבים ותרומות. כל תרומה מסייעת להנגיש ידע, הכוונה וקורסים למשפחות נוספות ולמתמודדים.</p>
+                                        <button onClick={() => handleNavigate('donate')} className="bg-brand-red text-white px-8 py-3.5 rounded-full font-bold hover:bg-red-700 transition shadow-soft flex items-center justify-center gap-2 mx-auto">
+                                            לתרומה מאובטחת <IconHeart className="w-4 h-4"/>
+                                        </button>
+                                    </div>
+                                </section>
+                            </div>
+                        )}
+                        
+                        {currentPage === 'suitability' && <SuitabilityPage navigate={handleNavigate} />}
+                        {currentPage === 'individuals' && <IndividualsPage navigate={handleNavigate} />}
+                        {currentPage === 'professionals' && <ProfessionalsPage navigate={handleNavigate} />}
+                        {currentPage === 'course' && <CoursePage navigate={handleNavigate} />}
+                        {currentPage === 'knowledge' && <KnowledgePage />}
+                        {currentPage === 'guidance' && <GuidancePage />}
+                        {currentPage === 'donate' && <DonatePage />}
+                        {currentPage === 'about' && <AboutPage />}
+                    </main>
+
+                    {/* Footer */}
+                    <footer className="bg-brand-blue text-white py-16 border-t-8 border-brand-red/80 relative z-10">
+                        <div className="container mx-auto px-4 lg:px-8 max-w-6xl">
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                                <div className="md:col-span-1">
+                                    <div className="font-bold text-2xl mb-1 cursor-pointer" onClick={() => handleNavigate('home')}>NEABPD <span className="text-sm font-bold text-white/70 tracking-widest block -mt-1">ISRAEL</span></div>
+                                    <p className="text-white/80 text-sm mt-6 leading-relaxed">הארגון הישראלי לטיפול בהפרעת אישיות גבולית. קהילה תומכת המספקת ידע וכלים מבוססי מחקר למשפחות ולמתמודדים.</p>
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-lg mb-4 text-white">ניווט מהיר</h4>
+                                    <ul className="space-y-3 text-white/70 text-sm">
+                                        <li><button onClick={() => handleNavigate('home')} className="hover:text-white transition">עמוד הבית</button></li>
+                                        <li><button onClick={() => handleNavigate('course')} className="hover:text-white transition">קורס קשרי משפחה</button></li>
+                                        <li><button onClick={() => handleNavigate('guidance')} className="hover:text-white transition">שיחת הכוונה</button></li>
+                                        <li><button onClick={() => handleNavigate('individuals')} className="hover:text-white transition">מידע למתמודדים</button></li>
+                                        <li><button onClick={() => handleNavigate('professionals')} className="hover:text-white transition">לאנשי מקצוע</button></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-lg mb-4 text-white">מידע נוסף</h4>
+                                    <ul className="space-y-3 text-white/70 text-sm">
+                                        <li><button onClick={() => handleNavigate('knowledge')} className="hover:text-white transition">מרכז ידע (מאמרים וסרטונים)</button></li>
+                                        <li><button onClick={() => handleNavigate('suitability')} className="hover:text-white transition">שאלון התאמה</button></li>
+                                        <li><button onClick={() => handleNavigate('about')} className="hover:text-white transition">אודות העמותה</button></li>
+                                        <li><button onClick={() => handleNavigate('donate')} className="text-brand-red bg-white px-4 py-1.5 rounded-full text-sm font-bold hover:bg-gray-100 transition inline-flex items-center gap-1.5 mt-2"><IconHeart className="w-3.5 h-3.5"/> תרומה</button></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-lg mb-4 text-white">צור קשר</h4>
+                                    <ul className="space-y-3 text-white/70 text-sm mb-6">
+                                        <li><a href="#" className="hover:text-white transition">עמוד הפייסבוק שלנו</a></li>
+                                        <li><a href="#" className="hover:text-white transition">דוא"ל פניות</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div className="bg-[#162d53] p-6 rounded-2xl flex flex-col md:flex-row gap-5 items-start md:items-center border border-white/10 mb-8 shadow-inner">
+                                <div className="bg-red-500/20 p-3 rounded-full shrink-0">
+                                    <IconAlert className="text-red-400 w-8 h-8" />
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-white mb-1.5 text-lg">הבהרה רפואית חשובה</h4>
+                                    <p className="text-sm text-white/80 leading-relaxed">העמותה אינה מוקד חירום והמידע באתר אינו מחליף ייעוץ פסיכולוגי, רפואי או אבחון. במצב של סכנה מיידית, התקף חמור או אובדנות, יש לפנות באופן מיידי למוקד 100 של המשטרה, לחדר מיון קרוב, או למוקדי התמיכה הנפשית (ער"ן 1201, סה"ר).</p>
+                                </div>
+                            </div>
+
+                            <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-sm text-white/50">
+                                <p>© {new Date().getFullYear()} NEABPD Israel. כל הזכויות שמורות.</p>
+                                <div className="flex flex-wrap justify-center gap-6 mt-4 md:mt-0">
+                                    <a href="#" className="hover:text-white transition">מדיניות פרטיות</a>
+                                    <a href="#" className="hover:text-white transition">הצהרת נגישות</a>
+                                    <a href="#" className="hover:text-white transition">תקנון האתר</a>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
